@@ -1,5 +1,7 @@
 #!/bin/bash
+			
 
+				#Reset les fichiers sauvegardes mensuels
 
 rm /home/leo/Projet2/sauv/sauvcarnofr.txt
 touch /home/leo/Projet2/sauv/sauvcarnofr.txt

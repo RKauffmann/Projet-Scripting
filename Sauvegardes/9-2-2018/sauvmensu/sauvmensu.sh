@@ -1,13 +1,16 @@
 #!/bin/bash
 
-DATE="$(date +%d/%m/%Y-%Hh%Mm%Ss)"
-CARNOFR=$(cat /home/leo/Projet2/carno/carnofr.txt)
-CARNOLOCAL=$(cat /home/leo/Projet2/carno/carnolocal.txt)
-CARNOSUPER=$(cat /home/leo/Projet2/carno/carnosuper.txt)
 
-echo $CARNOFR>/home/leo/Projet2/sauv/sauvcarnofr.txt
-echo $CARNOLOCAL>/home/leo/Projet2/sauv/sauvlocal.txt
-echo $CARNOSUPER>/home/leo/Projet2/sauv/sauvsuper.txt
+				#Sauvegarde une fois par mois l’ensemble des fichiers de configuration du serveur http
 
-#crontab --> changer en mensuel
+DATE="$(date +%d/%m/%Y-%Hh%Mm%Ss)" #Affiche la date est l'heure de la sauvegarde dans le fichier sauvegarde.
+CARNOFR=$(cat /home/leo/Projet2/carno/carnofr.txt) #fichier a sauvegarder
+CARNOLOCAL=$(cat /home/leo/Projet2/carno/carnolocal.txt) #fichier a sauvegarder
+CARNOSUPER=$(cat /home/leo/Projet2/carno/carnosuper.txt) #fichier a sauvegarder
+
+echo $CARNOFR>/home/leo/Projet2/sauv/sauvcarnofr.txt #fichier de sauvegarde
+echo $CARNOLOCAL>/home/leo/Projet2/sauv/sauvlocal.txt #fichier de sauvegarde
+echo $CARNOSUPER>/home/leo/Projet2/sauv/sauvsuper.txt #fichier de sauvegarde
+
+#* * * * * nomdutilisateur /chemin...... --> changer en mensuel
 
