@@ -1,0 +1,6 @@
+#!/bin/bash
+
+UP=$(cat /home/up)
+DOWN=$(cat /home/up)
+
+echo '<!DOCTYPE html> <html> 	<head> 		<title>carnofluxe</title>	</head> 		<body bgcolor ="lightgrey"> 		<div align="center"> <table width="900" bgcolor="white"align="center"> <td width="900"> 		<div align="center"> 		<img src="image/imagesite.png"> 		<br> 	<div align="right" id="messEtat">test</div> 			<br><br> 		il y a eu x conections sur carnofluxe.fr 		<br><br><br><br> 		<table width="800" bgcolor="white"><td width="400" align="center"> 				<u>Details</u> <br>		plein de donnees 			</td><td width="400" align="center"> 			&nbsp&nbsp&nbsp&nbsp<u>Origine</u> <br>		plein de donnees 				 </td> </table></table> </div>		<script>			var etat = "is up"; 		if (etat == "is up"){			document.getElementById("messEtat").innerHTML = "<img src='$UP'> serveur up &nbsp&nbsp";			}			else {				document.getElementById("messEtat").innerHTML = "<img src='$DOWN'> serveur down &nbsp&nbsp";			}				</script>						</div>	</body></html>' > /var/www/carno2/index.html
