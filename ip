@@ -1,0 +1,12 @@
+#!/bin/bash
+
+HEURE="$(date +%H-%M-%S)"
+
+echo -e "\n\n$HEURE\n" >>/home/serveur/ip.txt
+
+#garde seulement les ip et enleve les autres infos puis enleve tout les doublons d'adresse 
+
+cat /var/log/nginx/access.log | awk '{print $1}' | awk '!seen[$0]++' | awk 'NF > 0'  > ip.txt 2>>/var/log/script/localisation.txt
+cat /var/log/nginx/access.log >> /home/projet/acienlog.log  2>>/var/log/script/localisation.txt
+# echo > /var/log/nginx/access.log 2>>/var/log/script/localisation.txt ## LIGNE VIDANT LE FICHIER ACCES.LOG CHAQUE HEURE 
+cp ip.txt /home/serveur/ip.txt 2>> /var/log/script/localisation.txt
