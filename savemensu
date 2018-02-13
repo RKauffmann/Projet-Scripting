@@ -1,0 +1,14 @@
+#!/bin/bash
+#copie les fichier de config dans les fichier temporaire
+DATE="$(date +%d/%m/%Y-%Hh%Mm%Ss)" 2>> /var/log/script/savmensu.txt
+cp /etc/nginx/sites-enabled/ecommerce saveconfcommerce.txt 2>> /var/log/script/savmensu.txt
+cp /etc/nginx/sites-enabled/supervision saveconfsupervision.txt 2>> /var/log/script/savmensu.txt
+#envoie les fichier de config au serveur DNS esclave 
+sftp romain@192.168.10.6 << EOF
+cd /home/projet/fichier/save
+put saveconfsupervision.txt
+put saveconfcommerce.txt
+bye
+EOF
+
+# crontab --> changer en mensuel
