@@ -1,0 +1,10 @@
+#!/bin/bash
+
+UP=$(cat /home/up)
+DOWN=$(cat /home/down)
+DETAILS=$(cat /home/projet/fichier/ping.csv)
+ETAT=$(cat /home/projet/fichier/ping.csv | head -1 | cut -d ',' -f -1)
+ORIGINE=$(cat /home/projet/fichier/ip.csv)
+NB_CO=$(cat /home/projet/fichier/ip.csv | wc -l)
+
+echo -e '<!DOCTYPE html> \n\n<html> \n<head> \n	<title>carnofluxe</title>\n</head> \n	<body bgcolor ="lightgrey"> \n	<div align="center"> <table width="900" bgcolor="white"align="center"> <td width="900"> \n	<div align="center"> <img src="image/imagesite.png"> <br> \n	<div align="right" id="messEtat">test</div> \n	<br><br> il y a eu '$NB_CO' conections sur carnofluxe.fr\n 	<br><br><br><br>\n	<table width="800"bgcolor="white"><td width="400" align="center"><table width="300" bgcolor="white"><td width="300" align="center" valign="top">\n	<u>Details</u>\n	<br> <br>'$DETAILS' \n	</td></table></td>\n	<td width="400" align="center"><table width="300" bgcolor="white"><td width="300" align="center" valign="top">\n	<u>Origine</u> \n	<br><br>\n	'$ORIGINE' \n	</td></table></td> </table></table> </div>\n\n\n	<script>		\n		var etat = "'$ETAT'"; 		\n		if (etat == "SITE UP")\n		{	\n			document.getElementById("messEtat").innerHTML = "<img src='$UP'> serveur up &nbsp&nbsp";\n		}\n		else 			{\n		document.getElementById("messEtat").innerHTML = "<img src='$DOWN'> serveur down &nbsp&nbsp";\n		}\n	</script>\n\n</div>\n</body>\n\n</html>' > /var/www/carno2/index.html
