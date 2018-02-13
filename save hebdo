@@ -1,0 +1,32 @@
+#!/bin/bash
+
+                                # Sauvegarde du site internet une fois par semaine à 3h en gardant les 7 dernières sauvegardes
+
+
+DATE="$(date +%d/%m/%Y-%Hh%Mm%Ss)" 2>> /var/log/script/savehebdo.txt #Affiche la date est l'heure de la sauvegarde dans le fichier sauvegarde. 
+SITE=$(cat /var/www/ecommerce/index.html) 2>> /var/log/script/savehebdo.txt #fichier a sauvegarder
+i=$(cat /home/projet/tmp.txt) 2>> /var/log/script/savehebdo.txt #variable temporaire / fichier qui stocke la variable temporaire
+
+
+if [ "$i" -lt "8" ] 2>> /var/log/script/savehebdo.txt #Si il existe moins de 8 sauvegardes 
+
+then  #alors les créer de 1 à 7
+        SAVE=$(echo -e "\n$DATE\n\n$SITE" >/home/projet/save/backup$i.txt) 2>> /var/log/script/savehebdo.txt #Place date + le contenu du fichier à sauvegarder dans fichier sauvegarde
+        let "c=$i+1" 2>> /var/log/script/savehebdo.txt #Calcul de la variable temporaire (1 = 1 fichier de sauvegarde jusqu'à 7)
+        echo $c >/home/projet/tmp.txt 2>> /var/log/script/savehebdo.txt #Place la variable temporaire dans un fichier
+        $SAVE
+
+else #sinon déplacer le 7 vers le 6, le 6 vers le 5 etc. 
+        for ((a=1; a<7; a++))
+                do
+                        let "c=$a+1" 2>> /var/log/script/savehebdo.txt
+                        cp /home/projet/save/backup$c.txt /home/projet/save/backup$a.txt 2>> /var/log/script/savehebdo.txt #copie un fichier de sauvegarde vers 1 fichier de sauvegarde -1
+
+        done
+        echo -e "\n$DATE\n\n$SITE" >/home/projet/save/backup7.txt 2>> /var/log/script/savehebdo.txt #Met la nouvelle sauvegarde dans le fichier 7.
+        i=8     #Remet la variable temporaire à 8.
+fi
+
+
+
+#* * * * * nomdutilisateur /home/leo/Projet/sauvhebdo.sh --> changer dans le crontab en hebdomadaire
