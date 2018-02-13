@@ -1,0 +1,47 @@
+#!/bin/bash
+
+OUTPUT="$(date +%H-%M-%S)"
+
+un=92.168.10.10
+#fait un ping sur la page web google.fr puis le stocke dans le fichier saveping
+Saveping=$(ping -c 1 192.168.10.10 > /home/projet/fichier/saveping.txt)
+
+# récupere l'info si le ping a abouti avec le dns
+Savedns=$(dig carnofluxe.fr | grep '192.168.10.10'| cut -d 'A' --f 2 | cut -d '1' --f 2- )
+
+
+if [ "$Savedns" = "$un" ]
+then 
+	echo "page web accessible "
+	valeursite="site UP"
+	Savedns=1
+else
+	echo "page web inaccessible "
+	valeursite="site DOWN"
+	Savedns=1
+fi
+
+# récupere l'info sur le temps de connexion
+Temps=$(cat /home/projet/fichier/saveping.txt | grep 'icmp'| cut -d ' ' --f 8 | cut -d '=' --f 2)
+echo $Temps
+
+# récupere l'info si le ping a abouti avec l'ip
+Saveip=$(cat /home/projet/fichier/saveping.txt | grep 'packets'| cut -d ' ' --f 4 | cut -d ' ' --f 1- )
+
+
+if [ "$Saveip" = "$Savedns" ]
+then 
+	echo "resolution dns fonctionnel"
+	valeurdns="DNS UP"
+else
+	echo "resolution dns non fonctionnel"
+	valeurdns="DNS DOWN"
+fi 
+
+echo  "$valeursite;$Temps;$valeurdns;$OUTPUT" >> testping.csv
+
+sftp serveur@192.168.10.10 << EOF
+cd /home/projet/csv2html/csv
+put testping.csv
+bye
+EOF
